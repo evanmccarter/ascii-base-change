@@ -22,7 +22,7 @@ char*numeral(int i) {
 	return result;
 }
 
-char*baseChange(int decimal, int base) {
+char*changeBase(int decimal, int base) {
 	static char number[100] = "0";
 	if (decimal != 0) {
 		char*negative = "";
@@ -37,7 +37,7 @@ char*baseChange(int decimal, int base) {
 
 		sprintf(number, "%s%s%s",
 		        negative,
-		        powers ? baseChange(powers, base) : "",
+		        powers ? changeBase(powers, base) : "",
 		        numeral(ones));
 	}
 	return number;
@@ -47,6 +47,6 @@ int main (int argc, char**argv) {
 	if (argc > 1) {
 		int decimal = atoi(argv[1]);
 		int base = argc > 2 ? atoi(argv[2]) : 12;
-		printf("%s\n", baseChange(decimal, base));
+		printf("%s\n", changeBase(decimal, base));
 	}
 }
