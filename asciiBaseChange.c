@@ -22,20 +22,31 @@ char*numeral(int i) {
 	return result;
 }
 
+char*baseChange(int decimal, int base) {
+	static char number[100] = "0";
+	if (decimal != 0) {
+		char*negative = "";
+
+		if (decimal < 0) {
+			negative = "-";
+			decimal = -decimal;
+		}
+
+		int ones = (decimal % base);
+		int powers = (decimal - ones) / base;
+
+		sprintf(number, "%s%s%s",
+		        negative,
+		        powers ? baseChange(powers, base) : "",
+		        numeral(ones));
+	}
+	return number;
+}
+
 int main (int argc, char**argv) {
 	if (argc > 1) {
 		int decimal = atoi(argv[1]);
 		int base = argc > 2 ? atoi(argv[2]) : 12;
-
-		char number[100] = "";
-		char temp[100] = "";
-		while (decimal > 0)
-		{
-			strcpy(temp, number);
-			strcpy(number, numeral(decimal % base));
-			strcat(number, temp);
-			decimal = (decimal - decimal % base) / base;
-		}
-		printf("%s\n", number);
+		printf("%s\n", baseChange(decimal, base));
 	}
 }
